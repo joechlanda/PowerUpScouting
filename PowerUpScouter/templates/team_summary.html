@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{# tutorial/templates/tutorial/people.html #}
+{% load render_table from django_tables2 %}
+{% load static %}
+
+
+{% block title %}
+  Team Summary - {{ block.super }}
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'teams' %}">Teams</a></li>
+  <li class="breadcrumb-item active">Team Summary</li>
+{% endblock %}
+
+{% block content %}
+  <h1>{{team.number}} Summary</h1>
+  <h2>Match Efficiency</h2>
+  {% render_table team_eff %}
+	
+  <h2>Individual Match Listing</h2>
+  {% render_table matches %}
+{% endblock %}

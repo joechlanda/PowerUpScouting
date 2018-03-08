@@ -1,0 +1,7 @@
+Django==2.0.2
+django-widget-tweaks==1.4.1
+pytz==2017.3
+django-tables2==1.19.0
+django-filters==0.2.1
+django-filter==1.1.0
+django-bootstrap3==9.1.0
