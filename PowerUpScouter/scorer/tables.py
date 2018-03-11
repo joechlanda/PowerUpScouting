@@ -35,7 +35,7 @@ class EfficiencyTable(tables.Table):
 		exclude = ['id']
 
 class MatchTable(tables.Table):
-	match_number = tables.LinkColumn('match_edit',args=[A('match_number')])
+	match_number = tables.LinkColumn('match',args=[A('match_number')])
 	team = tables.LinkColumn('team_summary', args=[A('team')])
 
 	class Meta:
