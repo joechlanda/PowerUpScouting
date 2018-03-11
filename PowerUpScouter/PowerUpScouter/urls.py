@@ -25,5 +25,8 @@ urlpatterns = [
 	path('teams/', views.teams, name='teams'),
 	re_path(r'^teams/(?P<number>\d+)/$', views.team_summary, name='team_summary'),
     path('admin/', admin.site.urls),
-    path('teams/efficiency/', views.efficiency_update, name='team_efficiency')
+    path('teams/efficiency/', views.efficiency_update, name='team_efficiency'),
+    path('match', views.matches, name='matches'),
+    re_path('match/(?P<number>\d+)/$', views.match, name='match'),
+    re_path('match/(?P<number>\d+)/edit', views.match_edit, name='match_edit')
 ]

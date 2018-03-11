@@ -4,14 +4,17 @@ import json
 from django.shortcuts import render
 from django.http import HttpResponse
 from django_tables2 import RequestConfig
+from django.forms import modelformset_factory
 
-from .tables import TeamTable, MatchTable, EfficiencyTable
+from .tables import TeamTable, TeamMatchTable, MatchTable, EfficiencyTable
 from .models import Team, Match, TeamEfficiency
 
 
 # Create your views here.
 def home(request):
-	return HttpResponse("Landing Page")
+	table = TeamTable(Team.objects.all())
+	RequestConfig(request).configure(table)
+	return render(request, 'teams.html', {'table': table})
 
 def teams(request):
 	table = TeamTable(Team.objects.all())
@@ -111,7 +114,7 @@ def team_summary(request, number):
 
 	team_eff = EfficiencyTable(team.efficiency.all())
 	RequestConfig(request).configure(team_eff)
-	matches = MatchTable(team.matches.all())
+	matches = TeamMatchTable(team.matches.all())
 	RequestConfig(request).configure(matches)
 
 	return render(request, 'team_summary.html', {'matches': matches, 'team': team, 'team_eff':team_eff})
@@ -144,3 +147,32 @@ def update_frc(request):
 	Team.save()
 
 	return HttpResponse(teams)
+
+def match_edit(request, number):
+	MatchFormSet = modelformset_factory(Match, exclude=('id',))
+
+	if request.method == 'POST':
+		match_form_set = MatchFormSet(request.POST, request.FILES)
+		if match_form_set.is_valid():
+			match_form_set.save()
+	else:
+		matches = Match.objects.filter(match_number=number)
+
+		if matches.count() == 0:
+			match_form_set = MatchFormSet(queryset=Match.objects.none())
+		else:
+			match_form_set = MatchFormSet(queryset=Match.objects.filter(match_number=number))
+
+	return render(request, 'match_edit.html', {'formset': match_form_set})
+
+
+def matches(request):
+	table = MatchTable(Match.objects.all())
+	RequestConfig(request).configure(table)
+	return render(request, 'matches.html', {'table': table})
+
+
+def match(request, number):
+	table = MatchTable(Match.objects.filter(match_number=number))
+	RequestConfig(request).configure(table)
+	return render(request, 'match.html', {'table': table, 'number': number})

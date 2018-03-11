@@ -18,10 +18,10 @@ class TeamTable(tables.Table):
         fields = ['number', 'name']
 
 
-class MatchTable(tables.Table):
+class TeamMatchTable(tables.Table):
 	class Meta:
 		model = Match
-		template_name = 'django_tables2/bootstrap.html'
+		# template_name = 'django_tables2/bootstrap.html'
 		# fields = ['match_number', 'auto_cross', 'auto_scale', 'auto_switch', 'portal_pickup', 'ground_pickup', 'tele_switch', 'tele_scale', 'tele_exchange', 'climb_attempt', 'climb_success', 'parked', 'comments', 'alliance', 'start_pos']
 		exclude = ['id', 'team', 'alliance']
 
@@ -33,3 +33,12 @@ class EfficiencyTable(tables.Table):
 		model = TeamEfficiency
 		template_name = 'django_tables2/bootstrap.html'
 		exclude = ['id']
+
+class MatchTable(tables.Table):
+	match_number = tables.LinkColumn('match_edit',args=[A('match_number')])
+	team = tables.LinkColumn('team_summary', args=[A('team')])
+
+	class Meta:
+		model = Match
+		# template_name = 'django_tables2/bootstrap.html'
+		exclude = ['id', 'alliance']

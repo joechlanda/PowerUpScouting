@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{# tutorial/templates/tutorial/people.html #}
+{% load render_table from django_tables2 %}
+{% load bootstrap_formset from bootstrap3 %}
+{% load static %}
+
+
+{% block title %}
+  List of Matches - {{ block.super }}
+{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+  <li class="breadcrumb-item"><a href="{% url 'matches' %}">Matches</a></li>
+  <li class="breadcrumb-item active">Match Edit</li>
+{% endblock %}
+
+{% block content %}
+  <form method="post" action="">
+  	{% csrf_token %}
+    <!-- {{ formset }} -->
+
+    {% bootstrap_formset formset=formset layout=horizontal %}
+
+    <input type="submit" value="Add Match" class="button"/>
+  </form>
+  <!-- {{ formset.management_form }} -->
+
+    <!-- {{ formset.management_form }}
+
+    {% for form in formset %}
+        <div class="link-formset">
+            {{ form.anchor }}
+            {% if form.anchor.errors %}
+                {% for error in form.anchor.errors %}
+                    {{ error|escape }}
+                {% endfor %}
+            {% endif %}
+
+            {{ form.url }}
+            {% if form.url.errors %}
+                {% for error in form.url.errors %}
+                    {{ error|escape }}
+                {% endfor %}
+            {% endif %}
+        </div>
+    {% endfor %}
+
+    {% if formset.non_form_errors %}
+        {% for error in formset.non_form_errors %}
+            {{ error|escape }}
+        {% endfor %}
+    {% endif %} -->
+{% endblock %}
