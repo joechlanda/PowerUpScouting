@@ -1,0 +1,5 @@
+.form-group{
+    width: 175px;
+    box-sizing: unset !important;
+    float: left;
+}

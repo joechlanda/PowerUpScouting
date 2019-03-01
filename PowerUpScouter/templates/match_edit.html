@@ -16,14 +16,62 @@
 {% endblock %}
 
 {% block content %}
-  <form method="post" action="">
-  	{% csrf_token %}
-    <!-- {{ formset }} -->
+<form class="form-horizontal" method="POST" action="">
+        {% csrf_token %}
+        {{ formset.management_form }}
+        <div>
+            <style>
+input {
+    width: 100%;
+    padding: 2px;
+    margin: 0px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+select {
+    width: 100%;
+    padding: 2px;
+    margin: 0px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+            </style>
+        <table style="table-layout: fixed; width: 100%;">
+                <thead>
+                    {% for form in formset %}
+                        {% if forloop.first %}
+                            {% for field in form %}
+                                <th>{{ field.label_tag }}</th>
+                            {% endfor %}
+                        {% endif %}
+                </thead>
+                <tbody>
+                        <tr style="white-space: nowrap; overflow:hidden">
+                            {% for field in form %}
+                                <td>{{ field }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <div class="row spacer">
+            <div class="col-4 offset-2">
+                <button type="submit" class="btn btn-block btn-primary">Add Match</button>
+            </div>
+        </div>
+        </form>
 
-    {% bootstrap_formset formset=formset layout=horizontal %}
+  <!-- <form method="post" action="">
+  	{% csrf_token %}
+   {{ formset }} -->
+
+    <!-- {% bootstrap_formset formset=formset layout='horizontal' %}
 
     <input type="submit" value="Add Match" class="button"/>
-  </form>
+  </form> -->
   <!-- {{ formset.management_form }} -->
 
     <!-- {{ formset.management_form }}
